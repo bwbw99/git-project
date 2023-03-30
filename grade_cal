@@ -1,0 +1,69 @@
+#grade: 학점, int형으로 저장
+grade = 0
+submit_grade = 0
+open_grade = 0
+
+#score: 평점, 입력은 string형으로 받고, 값은 float형으로 저장
+score = "F"
+total_score = 0.0
+
+while(True):
+    print("작업을 선택하세요")
+    print("1. 입력")
+    print("2. 계산")
+
+    # 선택할 작업의 번호
+    menu = int(input()) 
+    if(menu == 1): #입력메뉴
+        print("학점을 입력하세요")
+        grade = int(input())
+        submit_grade += grade # F인 경우 다시 뺄 것임.
+        open_grade += grade
+        print("평점을 입력하세요")
+        score = input()
+        if(score == "A+"):
+            total_score += 4.5 * grade
+        elif(score == "A"):
+            total_score += 4.0 * grade
+        elif(score == "B+"):
+            total_score += 3.5 * grade
+        elif(score == "B"):
+            total_score += 3.0 * grade
+        elif(score == "C+"):
+            total_score += 2.5 * grade
+        elif(score == "C"):
+            total_score += 2.0 * grade
+        elif(score == "D+"):
+            total_score += 1.5 * grade
+        elif(score == "D"):
+            total_score += 1.0 * grade
+        elif(score == "F"):
+            submit_grade -= grade  
+        else:
+            print("잘못된 입력입니다, 학점이 추가되지 않았습니다")
+            submit_grade -= grade
+            open_grade -= grade
+    elif(menu == 2): #계산메뉴
+        if(open_grade == 0): #예외처리1
+            print("수강한 과목이 없어서 계산이 불가합니다")
+            break
+        elif(submit_grade == 0): #예외처리2
+            print("F학점만 존재하기 때문에 계산이 불가합니다")
+            break
+        else:
+            print("제출용: ", end='')
+            print(submit_grade, end='')
+            print("학점 (GPA: ", end='')
+            print(total_score/submit_grade, end='')
+            print(")")
+
+            print("열람용: ", end='')
+            print(open_grade, end='')
+            print("학점 (GPA: ", end='')
+            print(total_score/open_grade, end='')
+            print(")")
+
+            print("\n프로그램을 종료합니다.")
+            break
+    else:
+        print("잘못된 입력입니다. 1, 2 중에 선택하세요.")
