@@ -3,10 +3,13 @@
 2023년 1학기 오픈소스 수업 프로젝트
 
 1. hello.py
+
 hello world!를 출력하는 파이썬 코드
 
 2. grade_cal
+
 학점 계산기 파이선 코드
+
 좋은 input값의 예시
 
 ex1) 1 3 A+ 1 2 B 1 3 F 2
