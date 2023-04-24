@@ -1,69 +1,88 @@
+#과목코드: dictionary로 저장
+lectures = {
+    '101':'논리회로','102':'선형대수학','103':'소프트웨어공학','104':'수치해석','105':'신호및시스템',
+    '106':'알고리즘','107':'오픈소스SW','108':'운영체제','109':'이산수학','110':'자료구조',
+    '111':'정보보호이론','112':'창의적설계','113':'컴파일러','114':'컴퓨터구조','115':'확률및통계',
+    '901':'수학의세계','902':'인간행동과심리','903':'창의와소통','904':'한국사','905':'ACT'}
+
+#수강목록: 리스트로 저장, 각 원소는 (과목코드,학점,평점) 형태의 튜플
+complete = []
+
 #grade: 학점, int형으로 저장
 grade = 0
 submit_grade = 0
 open_grade = 0
 
-#score: 평점, 입력은 string형으로 받고, 값은 float형으로 저장
-score = "F"
+#score: 평점, float형으로 저장
 total_score = 0.0
 
 while(True):
     print("작업을 선택하세요")
     print("1. 입력")
-    print("2. 계산")
+    print("2. 출력")
+    print("3. 계산")
 
     # 선택할 작업의 번호
-    menu = int(input()) 
-    if(menu == 1): #입력메뉴
-        print("학점을 입력하세요")
-        grade = int(input())
-        submit_grade += grade # F인 경우 다시 뺄 것임.
-        open_grade += grade
-        print("평점을 입력하세요")
-        score = input()
-        if(score == "A+"):
-            total_score += 4.5 * grade
-        elif(score == "A"):
-            total_score += 4.0 * grade
-        elif(score == "B+"):
-            total_score += 3.5 * grade
-        elif(score == "B"):
-            total_score += 3.0 * grade
-        elif(score == "C+"):
-            total_score += 2.5 * grade
-        elif(score == "C"):
-            total_score += 2.0 * grade
-        elif(score == "D+"):
-            total_score += 1.5 * grade
-        elif(score == "D"):
-            total_score += 1.0 * grade
-        elif(score == "F"):
-            submit_grade -= grade  
-        else:
-            print("잘못된 입력입니다, 학점이 추가되지 않았습니다")
-            submit_grade -= grade
-            open_grade -= grade
-    elif(menu == 2): #계산메뉴
-        if(open_grade == 0): #예외처리1
-            print("수강한 과목이 없어서 계산이 불가합니다")
-            break
-        elif(submit_grade == 0): #예외처리2
-            print("F학점만 존재하기 때문에 계산이 불가합니다")
-            break
-        else:
-            print("제출용: ", end='')
-            print(submit_grade, end='')
-            print("학점 (GPA: ", end='')
-            print(total_score/submit_grade, end='')
-            print(")")
-
-            print("열람용: ", end='')
-            print(open_grade, end='')
-            print("학점 (GPA: ", end='')
-            print(total_score/open_grade, end='')
-            print(")")
-
-            print("\n프로그램을 종료합니다.")
-            break
-    else:
-        print("잘못된 입력입니다. 1, 2 중에 선택하세요.")
+    match input():
+        case '1':
+            print("과목명을 입력하세요:")
+            name = input()
+            key = 'undefined'
+            for i in lectures.keys():
+                if lectures[i] == name:
+                    key = i
+            if key == 'undefined':
+                print("잘못된 과목명입니다.")
+            else:
+                print("학점을 입력하세요:")
+                grade = int(input())
+                submit_grade += grade # F인 경우 다시 뺄 것임.
+                open_grade += grade
+                print("평점을 입력하세요:")
+                match input():
+                    case 'A+':
+                        complete.append((key,grade,'A+'))
+                        total_score += 4.5 * grade
+                    case 'A':
+                        complete.append((key,grade,'A'))
+                        total_score += 4.0 * grade
+                    case 'B+':
+                        complete.append((key,grade,'B+'))
+                        total_score += 3.5 * grade
+                    case 'B':
+                        complete.append((key,grade,'B'))
+                        total_score += 3.0 * grade
+                    case 'C+':
+                        complete.append((key,grade,'C+'))
+                        total_score += 2.5 * grade
+                    case 'C':
+                        complete.append((key,grade,'C'))
+                        total_score += 2.0 * grade
+                    case 'D+':
+                        complete.append((key,grade,'D+'))
+                        total_score += 1.5 * grade
+                    case 'D':
+                        complete.append((key,grade,'D'))
+                        total_score += 1.0 * grade
+                    case 'F':
+                        complete.append((key,grade,'F'))
+                        submit_grade -= grade 
+                    case _:
+                        print("잘못된 입력입니다, 학점이 추가되지 않았습니다")
+        case '2':
+            for i in range(len(complete)):
+                print("["+ lectures[complete[i][0]] + "] " + str(complete[i][1]) + "학점: " + complete[i][2])
+        case '3':
+            if(open_grade == 0): #예외처리1
+                print("수강한 과목이 없어서 계산이 불가합니다")
+                break
+            elif(submit_grade == 0): #예외처리2
+                print("F학점만 존재하기 때문에 계산이 불가합니다")
+                break
+            else:
+                print("제출용: " + str(submit_grade) + "학점 (GPA: " + str(total_score/submit_grade) + ")")
+                print("열람용: " + str(open_grade) + "학점 (GPA: " + str(total_score/open_grade) + ")")
+                print("\n프로그램을 종료합니다.")
+                break
+        case _:
+            print("잘못된 입력입니다. 1, 2,3 중에 선택하세요.")
