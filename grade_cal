@@ -31,6 +31,7 @@ while(True):
             for i in lectures.keys():
                 if lectures[i] == name:
                     key = i
+                    before_score = [-1.0,'None']
             if key == 'undefined':
                 print("잘못된 과목명입니다.")
             else:
@@ -38,37 +39,59 @@ while(True):
                 grade = int(input())
                 submit_grade += grade # F인 경우 다시 뺄 것임.
                 open_grade += grade
+                for i in range(len(complete)):
+                    if complete[i][0] == key: #재수강
+                        match complete[i][2]:
+                            case 'A+':
+                                before_score = [4.5, 'A+']
+                            case 'A':
+                                before_score = [4.0, 'A']
+                            case 'B+':
+                                before_score = [3.5, 'B+']
+                            case 'B':
+                                before_score = [3.0, 'B']
+                            case 'C+':
+                                before_score = [2.5, 'C+']
+                            case 'C':
+                                before_score = [2.0, 'C']
+                            case 'D+':
+                                before_score = [1.5, 'D+']
+                            case 'D':
+                                before_score = [1.0, 'D']
+                            case 'F':
+                                before_score = [0, 'F']
+                        del complete[i]
+                        submit_grade -= grade
+                        open_grade -= grade
                 print("평점을 입력하세요:")
                 match input():
                     case 'A+':
-                        complete.append((key,grade,'A+'))
-                        total_score += 4.5 * grade
+                        score = [4.5, 'A+']
                     case 'A':
-                        complete.append((key,grade,'A'))
-                        total_score += 4.0 * grade
+                        score = [4.0, 'A']
                     case 'B+':
-                        complete.append((key,grade,'B+'))
-                        total_score += 3.5 * grade
+                        score = [3.5, 'B+']
                     case 'B':
-                        complete.append((key,grade,'B'))
-                        total_score += 3.0 * grade
+                        score = [3.0, 'B']
                     case 'C+':
-                        complete.append((key,grade,'C+'))
-                        total_score += 2.5 * grade
+                        score = [2.5, 'C+']
                     case 'C':
-                        complete.append((key,grade,'C'))
-                        total_score += 2.0 * grade
+                        score = [2.0, 'C']
                     case 'D+':
-                        complete.append((key,grade,'D+'))
-                        total_score += 1.5 * grade
+                        score = [1.5, 'D+']
                     case 'D':
-                        complete.append((key,grade,'D'))
-                        total_score += 1.0 * grade
+                        score = [1.0, 'D']
                     case 'F':
-                        complete.append((key,grade,'F'))
-                        submit_grade -= grade 
+                        score = [0.0, 'F']
+                        submit_grade -= grade
                     case _:
                         print("잘못된 입력입니다, 학점이 추가되지 않았습니다")
+                if before_score[0] < score[0]:
+                    total_score -= before_score[0]
+                    total_score += score[0]*grade
+                    complete.append((key,grade, score[1]))
+                else:
+                    complete.append((key,grade,before_score[1]))
         case '2':
             for i in range(len(complete)):
                 print("["+ lectures[complete[i][0]] + "] " + str(complete[i][1]) + "학점: " + complete[i][2])
