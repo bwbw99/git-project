@@ -1,4 +1,5 @@
 import complete
+import csv
 
 #과목코드: dictionary로 저장
 lectures = {
@@ -22,8 +23,9 @@ while(True):
     print("2. 출력")
     print("3. 조회")
     print("4. 계산")
-    print("5. 종료")
-
+    print("5. 파일 저장")
+    print("6. 파일 불러오기")
+    print("7. 종료")
     # 선택할 작업의 번호
     match input():
         case '1':
@@ -124,7 +126,24 @@ while(True):
                 print("제출용: " + str(submit_grade) + "학점 (GPA: " + str(total_score/submit_grade) + ")")
                 print("열람용: " + str(open_grade) + "학점 (GPA: " + str(total_score/open_grade) + ")")
         case '5':
+            f = open('data.csv', 'w', encoding = 'utf-8', newline = '')
+            wr = csv.writer(f)
+            wr.writerow(a.key)
+            wr.writerow(a.grade)
+            wr.writerow(a.score_float)
+            wr.writerow(a.score_str)
+        case '6':
+            f = open('data.csv', 'r')
+            rdr = csv.reader(f)
+            lines = []
+            for line in rdr:
+                lines.append(line)
+            a.key = lines[0]
+            a.grade = lines[1]
+            a.score_float = lines[2]
+            a.score_str = lines[3]
+        case '7':
             print("프로그램을 종료합니다.")
             break
         case _:
-            print("잘못된 입력입니다. 1, 2, 3, 4, 5 중에 선택하세요.")
+            print("잘못된 입력입니다. 1, 2, 3, 4, 5, 6, 7 중에 선택하세요.")
