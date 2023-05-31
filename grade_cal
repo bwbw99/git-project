@@ -132,6 +132,7 @@ while(True):
             wr.writerow(a.grade)
             wr.writerow(a.score_float)
             wr.writerow(a.score_str)
+            print('저장되었습니다.')
         case '6':
             f = open('data.csv', 'r')
             rdr = csv.reader(f)
@@ -142,6 +143,7 @@ while(True):
             a.grade = lines[1]
             a.score_float = lines[2]
             a.score_str = lines[3]
+            print('파일을 불러왔습니다.')
         case '7':
             print("프로그램을 종료합니다.")
             break
